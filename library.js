@@ -1,5 +1,5 @@
 'use strict';
-const meta = require.main.require('./src/meta')
+
 const controllers = require('./lib/controllers');
 
 const plugin = {};
@@ -16,6 +16,7 @@ plugin.init = function (params, callback) {
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
 
+	callback();
 };
 
 plugin.addAdminNavigation = function (header, callback) {
