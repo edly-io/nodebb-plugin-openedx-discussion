@@ -10,8 +10,8 @@ plugin.init = function (params, callback) {
 	const hostMiddleware = params.middleware;
 
 
-	router.get('/admin/plugins/openedx-discussion', hostMiddleware.admin.buildHeader, controllers.admin_.renderAdminPage);
-	router.get('/api/admin/plugins/openedx-discussion', controllers.admin_.renderAdminPage);
+	router.get('/admin/plugins/openedx-discussion', hostMiddleware.admin.buildHeader, controllers.adminPanel.renderAdminPage);
+	router.get('/api/admin/plugins/openedx-discussion', controllers.adminPanel.renderAdminPage);
 
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
