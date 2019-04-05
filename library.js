@@ -30,7 +30,7 @@ plugin.addAdminNavigation = function (header, callback) {
 };
 
 plugin.addEmbedChecks = function (params, callback) {
-	params.templateValues.useHeaderNavbar = false;
+	params.templateValues.useHeaderNavbar = !params.req.path.startsWith('/embed');
 	callback(null, params);
 };
 
