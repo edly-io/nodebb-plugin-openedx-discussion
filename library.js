@@ -29,4 +29,9 @@ plugin.addAdminNavigation = function (header, callback) {
 	callback(null, header);
 };
 
+plugin.addEmbedChecks = function (params, callback) {
+	params.templateValues.useHeaderNavbar = false;
+	callback(null, params);
+};
+
 module.exports = plugin;

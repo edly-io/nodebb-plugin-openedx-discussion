@@ -3,10 +3,8 @@
 	{{widgets.header.html}}
 	<!-- END widgets.header -->
 </div>
-Aljfpagpoaujgoajgpklsdjpglkjaspogjuposad
 <div class="row">
 	<div class="category <!-- IF widgets.sidebar.length -->col-lg-9 col-sm-12<!-- ELSE -->col-lg-12<!-- ENDIF widgets.sidebar.length -->">
-		<!-- IMPORT partials/category/subcategory.tpl -->
 
 		<!-- IF children.length --><hr class="hidden-xs"/><!-- ENDIF children.length -->
 
@@ -31,7 +29,6 @@ Aljfpagpoaujgoajgpklsdjpglkjaspogjuposad
 		</div>
 
 		<hr class="hidden-xs" />
-
 		<p class="hidden-xs">{name}</p>
 
 		<!-- IF !topics.length -->
@@ -43,7 +40,7 @@ Aljfpagpoaujgoajgpklsdjpglkjaspogjuposad
 		<!-- ENDIF privileges.topics:create -->
 		<!-- ENDIF !topics.length -->
 
-		<!-- IMPORT partials/topics_list.tpl -->
+		<!-- IMPORT embed/partials/topics_list.tpl -->
 
 		<!-- IF config.usePagination -->
 			<!-- IMPORT partials/paginator.tpl -->
