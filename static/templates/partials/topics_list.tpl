@@ -96,7 +96,6 @@
 			<span class="human-readable-number" title="{topics.viewcount}">{topics.viewcount}</span><br />
 			<small>[[global:views]]</small>
 		</div>
-
 		<div class="col-md-3 col-sm-3 teaser hidden-xs" component="topic/teaser">
 			<div class="card" style="border-color: {topics.category.bgColor}">
 				<!-- IF topics.unreplied -->
