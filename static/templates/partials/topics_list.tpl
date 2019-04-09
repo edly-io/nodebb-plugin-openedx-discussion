@@ -3,7 +3,6 @@
 	<!-- BEGIN topics -->
 	<li component="category/topic" class="row clearfix category-item {function.generateTopicClass}" <!-- IMPORT partials/data/category.tpl -->>
 		<meta itemprop="name" content="{function.stripTags, title}">
-
 		<div class="col-md-6 col-sm-9 col-xs-10 content">
 			<div class="avatar pull-left" title="{topics.user.username}">
 				<!-- IF showSelect -->
@@ -44,7 +43,11 @@
 				<!-- BEGIN icons -->@value<!-- END icons -->
 
 				<!-- IF !topics.noAnchor -->
-				<a href="{config.relative_path}/topic/{topics.slug}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
+					<!-- IF isEmbedView -->
+						<a href="{config.relative_path}/embed?topic_id={topics.tid}&slug={topics.slug}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
+					<!-- ELSE -->
+						<a href="{config.relative_path}/topic/{topics.slug}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
+					<!-- ENDIF isEmbedView -->
 				<!-- ELSE -->
 				<span>{topics.title}</span><br />
 				<!-- ENDIF !topics.noAnchor -->

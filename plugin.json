@@ -11,9 +11,6 @@
 		},
 		{
 			"hook": "filter:middleware.renderHeader", "method": "addEmbedChecks"
-		},
-		{
-			"hook": "filter:category.topics.get", "method": "catagoryTopicsMiddleware"
 		}
 	],
 	"staticDirs": {
