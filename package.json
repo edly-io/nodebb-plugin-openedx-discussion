@@ -1,11 +1,11 @@
 {
   "name": "nodebb-plugin-openedx-discussion",
-  "version": "0.0.1",
-  "description": "Nodebb plugin for integrating nodebb discussion into openedx.",
+  "version": "0.1.0",
+  "description": "NodeBB plugin for integrating NodeBB discussion into Open EdX.",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arbisoft/nodebb-plugin-openedx-discussion"
+    "url": "https://github.com/edly-io/nodebb-plugin-openedx-discussion"
   },
   "keywords": [
     "nodebb",
@@ -14,9 +14,10 @@
     "discussion"
   ],
   "author": {
-    "name": "Arbisoft"
+    "name": "edly",
+    "email": "edly@arbisoft.com"
   },
-  "license": "GPLv3",
+  "license": "GPL-v3.0-or-later",
   "readmeFilename": "README.md",
   "nbbpm": {
     "compatibility": "^1.0.0"

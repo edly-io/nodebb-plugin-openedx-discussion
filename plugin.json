@@ -1,6 +1,6 @@
 {
 	"id": "nodebb-plugin-openedx-discussion",
-	"url": "https://github.com/NodeBB/nodebb-plugin-openedx-discussion",
+	"url": "https://github.com/edly-io/nodebb-plugin-openedx-discussion",
 	"library": "./library.js",
 	"hooks": [
 		{
