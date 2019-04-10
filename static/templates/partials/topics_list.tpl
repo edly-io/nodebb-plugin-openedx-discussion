@@ -44,7 +44,7 @@
 
 				<!-- IF !topics.noAnchor -->
 					<!-- IF isEmbedView -->
-						<a href="{config.relative_path}/embed?topic_id={topics.tid}&slug={topics.slug}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
+						<a href="{config.relative_path}/embed?topic_id={topics.tid}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
 					<!-- ELSE -->
 						<a href="{config.relative_path}/topic/{topics.slug}<!-- IF topics.bookmark -->/{topics.bookmark}<!-- ENDIF topics.bookmark -->" itemprop="url">{topics.title}</a><br />
 					<!-- ENDIF isEmbedView -->
