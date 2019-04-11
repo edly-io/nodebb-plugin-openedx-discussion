@@ -11,6 +11,9 @@
 		},
 		{
 			"hook": "filter:middleware.renderHeader", "method": "addEmbedChecks"
+		},
+		{
+			"hook": "filter:router.page", "method": "authenticateSession"
 		}
 	],
 	"staticDirs": {

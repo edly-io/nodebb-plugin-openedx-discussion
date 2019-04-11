@@ -1,7 +1,9 @@
 'use strict';
 
-const controllers = require('./lib/controllers');
+const meta = require.main.require('./src/meta');
 
+const controllers = require('./lib/controllers');
+const authentication = require('./utils/authentication');
 const plugin = {};
 
 
@@ -32,6 +34,29 @@ plugin.addAdminNavigation = function (header, callback) {
 plugin.addEmbedChecks = function (params, callback) {
 	params.templateValues.isEmbedView = params.req.path.startsWith('/embed');
 	callback(null, params);
+};
+
+plugin.authenticateSession = function (req, res, callback) {
+	if (!req.user) {
+		meta.settings.get('openedx-discussion', function (err, settings) {
+			if (err) {
+				return callback({
+					code: 'error',
+					plugin: 'openedx-discussion',
+					message: 'Settings could not be loaded',
+				});
+			}
+			var cookieName = settings.jwtCookieName;
+			if (req.cookies[cookieName]) {
+				authentication.loginByJwtToken(req, function (err) {
+					if (err) {
+						return callback(err);
+					}
+				});
+			}
+		});
+	}
+	return callback();
 };
 
 
