@@ -59,5 +59,4 @@ plugin.authenticateSession = function (req, res, callback) {
 	return callback();
 };
 
-
 module.exports = plugin;
