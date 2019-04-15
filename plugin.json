@@ -10,7 +10,7 @@
 			"hook": "filter:admin.header.build", "method": "addAdminNavigation"
 		},
 		{
-			"hook": "filter:middleware.renderHeader", "method": "addEmbedChecks"
+			"hook": "filter:middleware.renderHeader", "method": "addCustomParameters"
 		},
 		{
 			"hook": "filter:router.page", "method": "authenticateSession"
