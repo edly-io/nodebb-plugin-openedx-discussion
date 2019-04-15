@@ -19,6 +19,9 @@ plugin.init = function (params, callback) {
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
 
+	router.get('/adminlogin', hostMiddleware.buildHeader, controllers.adminPanel.redirectToLogin);
+	router.get('/api/adminlogin', controllers.adminPanel.redirectToLogin);
+
 	callback();
 };
 
@@ -34,7 +37,18 @@ plugin.addAdminNavigation = function (header, callback) {
 
 plugin.addCustomParameters = function (params, callback) {
 	params.templateValues.isEmbedView = params.req.path.startsWith('/embed');
-	callback(null, params);
+	meta.settings.get('openedx-discussion', function (err, settings) {
+		if (err) {
+			return callback({
+				code: 'error',
+				plugin: 'openedx-discussion',
+				message: 'Settings could not be loaded',
+			});
+		}
+		params.templateValues.loginURL = settings.loginURL;
+		params.templateValues.registrationURL = settings.registrationURL;
+		callback(null, params);
+	});
 };
 
 plugin.authenticateSession = function (req, res, callback) {
@@ -47,7 +61,7 @@ plugin.authenticateSession = function (req, res, callback) {
 			});
 		}
 
-		if (req.path === '/login' && settings.loginURL) {
+		if (req.path === '/login' && settings.loginURL && !req.query.isAdmin) {
 			return res.redirect(settings.loginURL);
 		} else if (req.path === '/register' && settings.registrationURL) {
 			return res.redirect(settings.registrationURL);
