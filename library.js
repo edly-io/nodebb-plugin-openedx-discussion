@@ -53,6 +53,7 @@ plugin.addCustomParameters = function (params, callback) {
 };
 
 plugin.authenticateSession = function (req, res, callback) {
+	var originalUid = req.uid;
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return callback({
@@ -74,12 +75,17 @@ plugin.authenticateSession = function (req, res, callback) {
 				if (err) {
 					return callback(err);
 				}
+				if (req.uid === originalUid) {
+					return callback();
+				}
+				return res.redirect(req.originalUrl);
 			});
 		} else if (req.user && req.user.uid !== 1) {
 			req.logout();
 			return res.redirect('/login');
+		} else {
+			return callback();
 		}
-		return callback();
 	});
 };
 
