@@ -5,6 +5,7 @@ const meta = require.main.require('./src/meta');
 const controllers = require('./lib/controllers');
 const authentication = require('./utils/authentication');
 
+
 const plugin = {};
 
 
@@ -69,13 +70,11 @@ plugin.authenticateSession = function (req, res, callback) {
 
 		var cookieName = settings.jwtCookieName;
 		if (req.cookies[cookieName]) {
-			if (!req.user) {
-				authentication.loginByJwtToken(req, function (err) {
-					if (err) {
-						return callback(err);
-					}
-				});
-			}
+			authentication.loginByJwtToken(req, function (err) {
+				if (err) {
+					return callback(err);
+				}
+			});
 		} else if (req.user && req.user.uid !== 1) {
 			req.logout();
 			return res.redirect('/login');
