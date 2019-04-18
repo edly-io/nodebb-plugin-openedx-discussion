@@ -4,19 +4,24 @@
 	"library": "./library.js",
 	"hooks": [
 		{
-			"hook": "static:app.load", "method": "init"
+			"hook": "static:app.load",
+			"method": "init"
 		},
 		{
-			"hook": "filter:admin.header.build", "method": "addAdminNavigation"
+			"hook": "filter:admin.header.build",
+			"method": "addAdminNavigation"
 		},
 		{
-			"hook": "filter:middleware.renderHeader", "method": "addCustomParameters"
+			"hook": "filter:middleware.renderHeader",
+			"method": "addPluginTemplatesVariables"
 		},
 		{
-			"hook": "filter:router.page", "method": "authenticateSession"
+			"hook": "filter:router.page",
+			"method": "authenticateSession"
 		},
 		{
-			"hook": "static:user.loggedOut", "method": "cleanSession"
+			"hook": "static:user.loggedOut",
+			"method": "cleanSession"
 		}
 	],
 	"staticDirs": {
