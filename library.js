@@ -48,6 +48,7 @@ plugin.addCustomParameters = function (params, callback) {
 		}
 		params.templateValues.loginURL = settings.loginURL;
 		params.templateValues.registrationURL = settings.registrationURL;
+		params.templateValues.logoutURL = settings.logoutURL;
 		callback(null, params);
 	});
 };
@@ -86,6 +87,23 @@ plugin.authenticateSession = function (req, res, callback) {
 		} else {
 			return callback();
 		}
+	});
+};
+
+
+plugin.cleanSession = function (params, callback) {
+	meta.settings.get('openedx-discussion', function (err, settings) {
+		if (err) {
+			return callback({
+				code: 'error',
+				plugin: 'openedx-discussion',
+				message: 'Settings could not be loaded',
+			});
+		}
+		if (settings.jwtCookieName) {
+			params.res.clearCookie(settings.jwtCookieName);
+		}
+		callback();
 	});
 };
 

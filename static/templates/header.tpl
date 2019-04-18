@@ -13,6 +13,7 @@
 			template: "{template.name}",
 			user: JSON.parse('{{userJSON}}')
 		};
+		var logoutURL = "{logoutURL}";
 	</script>
 
 	<!-- IF useCustomHTML -->

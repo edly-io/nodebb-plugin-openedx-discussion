@@ -6,9 +6,10 @@
 				Configure these settings to share session between openEdx and nodebb instance.
 
 				JWT Cookie Name: Name of the encoded jwt cookie that will be sent with requests to nodebb.
-				Secret: "key" for "key:value" pair of secret used for jwt encoding and decoding.
-				Redirect Login Url: "login-url" for where to direct an user when he tries to login.
-				Redirect Registration Url: "registration-url" for where to direct an user when he tries to register.
+				Secret: `key` for "key:value" pair of secret used for jwt encoding and decoding.
+				Redirect Login Url: `login-url` for where to direct an user when he tries to login.
+				Redirect Registration Url: `registration-url` for where to direct an user when he tries to register.
+				Logout Url: `logout-url` is the openedx logout url which will be used to clear session when user logs out from nodebb.
 			</p>
 
 			<div class="form-group">
@@ -29,6 +30,11 @@
 			<div class="form-group">
 				<label for="registrationURL">Registration URL</label>
 				<input type="text" id="registrationURL" name="registrationURL" title="registrationURL" class="registrationURL" placeholder="https://example.com/register">
+			</div>
+
+			<div class="form-group">
+				<label for="logoutURL">Logout redirect URL</label>
+				<input type="text" id="logoutURL" name="logoutURL" title="logoutURL" class="logoutURL" placeholder="https://example.com/logout">
 			</div>
 		</div>
 	</div>
