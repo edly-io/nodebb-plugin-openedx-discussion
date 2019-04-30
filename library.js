@@ -36,7 +36,7 @@ plugin.addAdminNavigation = function (header, callback) {
 	callback(null, header);
 };
 
-plugin.addPluginTemplatesVariables = function (params, callback) {
+plugin.addPluginTemplateVariables = function (params, callback) {
 	params.templateValues.isEmbedView = params.req.path.startsWith('/embed');
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {

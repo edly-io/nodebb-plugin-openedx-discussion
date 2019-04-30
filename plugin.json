@@ -13,7 +13,7 @@
 		},
 		{
 			"hook": "filter:middleware.renderHeader",
-			"method": "addPluginTemplatesVariables"
+			"method": "addPluginTemplateVariables"
 		},
 		{
 			"hook": "filter:router.page",
