@@ -5,6 +5,9 @@
 			<p class="lead">
 				Configure these settings to share session between openEdx and nodebb instance.
 			</p>
+			<p>
+			<bold>Note:</bold> <span>When this plugin is activated and value for <code>Redirect Login Url</code> is set, login page of admin panel will be accessed from url: <code>/adminlogin</code></span>
+			</p>
 
 			<div class="row panel panel-body">
 				<div class="form-group">
@@ -12,7 +15,7 @@
 					<input type="text" id="jwtCookieName" name="jwtCookieName" title="JWT Cookie Name"
 						class="form-control" placeholder="Token">
 				</div>
-				<p>JWT Cookie Name: Name of the encoded jwt cookie that will be sent with requests to nodebb.</p>
+				<p><code>JWT Cookie Name</code> Name of the encoded jwt cookie that will be sent with requests to nodebb.</p>
 
 			</div>
 
@@ -21,7 +24,7 @@
 					<label for="secret">Secret</label>
 					<input type="text" id="secret" name="secret" title="secret" class="form-control"
 						placeholder="its a secret">
-					<p>Secret: `key` for "key:value" pair of secret used for jwt encoding and decoding.</p>
+					<p><code>Secret</code> "key" for "key:value" pair of secret used for jwt encoding and decoding.</p>
 				</div>
 			</div>
 
@@ -30,7 +33,7 @@
 					<label for="loginURL">Login URL</label>
 					<input type="text" id="loginURL" name="loginURL" title="loginURL" class="form-control"
 						placeholder="https://example.com/login">
-					<p>Redirect Login Url: `login-url` for where to direct an user when he tries to login.</p>
+					<p><code>Redirect Login Url</code> `login-url` for where to direct an user when he tries to login.</p>
 
 				</div>
 			</div>
@@ -40,7 +43,7 @@
 					<label for="registrationURL">Registration URL</label>
 					<input type="text" id="registrationURL" name="registrationURL" title="registrationURL"
 						class="form-control" placeholder="https://example.com/register">
-					<p>Redirect Registration Url: `registration-url` for where to direct an user when he tries to
+					<p><code>Redirect Registration Url</code> `registration-url` for where to direct an user when he tries to
 						register.</p>
 
 				</div>
@@ -51,7 +54,7 @@
 					<label for="logoutURL">Logout redirect URL</label>
 					<input type="text" id="logoutURL" name="logoutURL" title="logoutURL" class="form-control"
 						placeholder="https://example.com/logout">
-					<p>Logout Url: `logout-url` is the openedx logout url which will be used to clear session when user
+					<p><code>Logout Url</code> `logout-url` is the openedx logout url which will be used to clear session when user
 						logs out from nodebb.</p>
 
 				</div>
