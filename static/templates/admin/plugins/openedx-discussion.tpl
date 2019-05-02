@@ -5,10 +5,6 @@
 			<p class="lead">
 				Configure these settings to share session between openEdx and nodebb instance.
 			</p>
-			<p>
-			<bold>Note:</bold> <span>When this plugin is activated and value for <code>Redirect Login Url</code> is set, login page of admin panel will be accessed from url: <code>/adminlogin</code></span>
-			</p>
-
 			<div class="row panel panel-body">
 				<div class="form-group">
 					<label for="jwtCookieName">JWT cookie name</label>
