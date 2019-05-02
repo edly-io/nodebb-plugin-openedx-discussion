@@ -31,7 +31,7 @@
 			<div class="row panel panel-body">
 				<div class="form-group">
 					<label for="loginURL">Login URL</label>
-					<input type="text" id="loginURL" name="loginURL" title="loginURL" class="form-control"
+					<input type="url" id="loginURL" name="loginURL" title="loginURL" class="form-control"
 						placeholder="https://example.com/login">
 					<p><code>Redirect Login Url</code> `login-url` for where to direct an user when he tries to login.</p>
 
@@ -41,7 +41,7 @@
 			<div class="row panel panel-body">
 				<div class="form-group">
 					<label for="registrationURL">Registration URL</label>
-					<input type="text" id="registrationURL" name="registrationURL" title="registrationURL"
+					<input type="url" id="registrationURL" name="registrationURL" title="registrationURL"
 						class="form-control" placeholder="https://example.com/register">
 					<p><code>Redirect Registration Url</code> `registration-url` for where to direct an user when he tries to
 						register.</p>
@@ -52,7 +52,7 @@
 			<div class="row panel panel-body">
 				<div class="form-group">
 					<label for="logoutURL">Logout redirect URL</label>
-					<input type="text" id="logoutURL" name="logoutURL" title="logoutURL" class="form-control"
+					<input type="url" id="logoutURL" name="logoutURL" title="logoutURL" class="form-control"
 						placeholder="https://example.com/logout">
 					<p><code>Logout Url</code> `logout-url` is the openedx logout url which will be used to clear session when user
 						logs out from nodebb.</p>

@@ -20,9 +20,6 @@ plugin.init = function (params, callback) {
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
 
-	router.get('/adminlogin', hostMiddleware.buildHeader, controllers.adminPanel.redirectToLogin);
-	router.get('/api/adminlogin', controllers.adminPanel.redirectToLogin);
-
 	callback();
 };
 
@@ -64,7 +61,8 @@ plugin.authenticateSession = function (req, res, callback) {
 			});
 		}
 
-		if (req.path === '/login' && settings.loginURL && !req.query.isAdmin) {
+
+		if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
 			return res.redirect(settings.loginURL);
 		} else if (req.path === '/register' && settings.registrationURL) {
 			return res.redirect(settings.registrationURL);
