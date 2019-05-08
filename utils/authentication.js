@@ -44,9 +44,9 @@ authentication.loginByJwtToken = function (req, next) {
 			});
 		}
 
-		const cookieName = settings.jwtCookieName;
-		const secret = settings.secret;
-		const cookie = req.cookies[cookieName];
+		var cookieName = settings.jwtCookieName;
+		var secret = settings.secret;
+		var cookie = req.cookies[cookieName];
 
 		var user;
 		try {
