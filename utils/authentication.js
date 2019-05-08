@@ -23,9 +23,8 @@ authentication.loginByJwtToken = function (req, next) {
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return next({
-				code: 'error',
 				plugin: 'openedx-discussion',
-				message: 'Settings could not be loaded',
+				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
 		var message = '';
@@ -38,7 +37,7 @@ authentication.loginByJwtToken = function (req, next) {
 		message += message.length ? ' setting(s) not configured.' : '';
 		if (message.length) {
 			return next({
-				code: 'error',
+				code: '[[plugins:plugin-item.unknown-explanation]]',
 				plugin: 'openedx-discussion',
 				message: message,
 			});
@@ -56,16 +55,12 @@ authentication.loginByJwtToken = function (req, next) {
 		}
 		User.getUidByUsername(user.username, function (err, uid) {
 			if (err) {
-				return next({
-					code: 'bad-request',
-					username: user.username,
-					message: 'User does not exist',
-				});
+				return next(new Error('[[error:invalid-uid]]'));
 			}
 			nbbAuthController.doLogin(req, uid, function (err) {
 				if (err) {
 					return next({
-						code: 'bad-request',
+						code: '[[error:invalid-login-credentials]]',
 						username: user.username,
 						message: err,
 					});

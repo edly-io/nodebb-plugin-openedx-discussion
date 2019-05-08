@@ -38,9 +38,8 @@ plugin.addPluginTemplateVariables = function (params, callback) {
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return callback({
-				code: 'error',
 				plugin: 'openedx-discussion',
-				message: 'Settings could not be loaded',
+				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
 		params.templateValues.loginURL = settings.loginURL;
@@ -55,9 +54,8 @@ plugin.authenticateSession = function (req, res, callback) {
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return callback({
-				code: 'error',
 				plugin: 'openedx-discussion',
-				message: 'Settings could not be loaded',
+				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
 
