@@ -11,6 +11,15 @@ var authentication = module.exports;
 
 
 authentication.loginByJwtToken = function (req, next) {
+	/**
+	 * Authenticate and login user by veriying JWT token provided in request cookies.
+	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).
+	 *
+	 * Args:
+	 *	req<Object>: Request object
+	 *	res<Object>: Response object
+	 */
+
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return next({

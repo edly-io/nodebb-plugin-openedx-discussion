@@ -5,6 +5,9 @@ define('admin/plugins/openedx-discussion', ['settings'], function (Settings) {
 	var ACP = {};
 
 	ACP.init = function () {
+		/**
+		 *	Initialize admin panel form for nodebb-plugin-openedx-discussion.
+		 */
 		Settings.load('openedx-discussion', $('.openedx-discussion-settings'));
 
 		$('#save').on('click', function () {
