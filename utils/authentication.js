@@ -6,6 +6,7 @@ var User = require.main.require('./src/user');
 var meta = require.main.require('./src/meta');
 var nbbAuthController = require.main.require('./src/controllers/authentication');
 
+var constants = require('../lib/constans');
 
 var authentication = module.exports;
 
@@ -23,13 +24,13 @@ authentication.loginByJwtToken = function (req, next) {
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return next({
-				plugin: 'openedx-discussion',
+				plugin: constants.pluginName,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
 		var message = '';
 		if (!settings.hasOwnProperty('secret') || !settings.secret.length) {
-			message = '[nodebb-plugin-openedx-discussion] "secret"';
+			message = '[' + constants.pluginID + '] "secret"';
 		}
 		if (!settings.hasOwnProperty('jwtCookieName') || !settings.jwtCookieName.length) {
 			message += message.length ? ' and "jwtCookieName"' : 'jwtCookieName';
@@ -38,7 +39,7 @@ authentication.loginByJwtToken = function (req, next) {
 		if (message.length) {
 			return next({
 				code: '[[plugins:plugin-item.unknown-explanation]]',
-				plugin: 'openedx-discussion',
+				plugin: constants.pluginName,
 				message: message,
 			});
 		}

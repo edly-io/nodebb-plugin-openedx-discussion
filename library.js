@@ -5,6 +5,7 @@ var meta = require.main.require('./src/meta');
 var controllers = require('./lib/controllers');
 var authentication = require('./utils/authentication');
 
+var constants = require('./lib/constans');
 
 var plugin = {};
 
@@ -35,10 +36,10 @@ plugin.addAdminNavigation = function (header, callback) {
 
 plugin.addPluginTemplateVariables = function (params, callback) {
 	params.templateValues.isEmbedView = params.req.path.startsWith('/embed');
-	meta.settings.get('openedx-discussion', function (err, settings) {
+	meta.settings.get(constants.pluginName, function (err, settings) {
 		if (err) {
 			return callback({
-				plugin: 'openedx-discussion',
+				plugin: constants.pluginName,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
@@ -51,10 +52,10 @@ plugin.addPluginTemplateVariables = function (params, callback) {
 
 plugin.authenticateSession = function (req, res, callback) {
 	var originalUid = req.uid;
-	meta.settings.get('openedx-discussion', function (err, settings) {
+	meta.settings.get(constants.pluginName, function (err, settings) {
 		if (err) {
 			return callback({
-				plugin: 'openedx-discussion',
+				plugin: constants.pluginName,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
@@ -88,11 +89,11 @@ plugin.authenticateSession = function (req, res, callback) {
 
 
 plugin.cleanSession = function (params, callback) {
-	meta.settings.get('openedx-discussion', function (err, settings) {
+	meta.settings.get(constants.pluginName, function (err, settings) {
 		if (err) {
 			return callback({
 				code: 'error',
-				plugin: 'openedx-discussion',
+				plugin: constants.pluginName,
 				message: 'Settings could not be loaded',
 			});
 		}
