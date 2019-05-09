@@ -6,7 +6,7 @@ var User = require.main.require('./src/user');
 var meta = require.main.require('./src/meta');
 var nbbAuthController = require.main.require('./src/controllers/authentication');
 
-var constants = require('../lib/constans');
+var constants = require('@lib/constans');
 
 var authentication = module.exports;
 

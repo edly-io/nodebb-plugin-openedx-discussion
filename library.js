@@ -1,11 +1,13 @@
 'use strict';
 
+require('module-alias/register');
+
 var meta = require.main.require('./src/meta');
 
-var controllers = require('./lib/controllers');
-var authentication = require('./utils/authentication');
+var constants = require('@lib/constans');
+var controllers = require('@lib/controllers');
+var authentication = require('@utils/authentication');
 
-var constants = require('./lib/constans');
 
 var plugin = {};
 
