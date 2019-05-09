@@ -34,8 +34,10 @@ plugin.addAdminNavigation = function (header, callback) {
 	callback(null, header);
 };
 
-plugin.addPluginTemplateVariables = function (params, callback) {
-	params.templateValues.isEmbedView = params.req.path.startsWith('/embed');
+plugin.addHeaderVariables = function (params, callback) {
+	if (params.req.cookies.embed && params.req.cookies.embed.isEmbedView) {
+		params.templateValues.isEmbedView = true;
+	}
 	meta.settings.get(constants.pluginName, function (err, settings) {
 		if (err) {
 			return callback({
@@ -46,7 +48,7 @@ plugin.addPluginTemplateVariables = function (params, callback) {
 		params.templateValues.loginURL = settings.loginURL;
 		params.templateValues.registrationURL = settings.registrationURL;
 		params.templateValues.logoutURL = settings.logoutURL;
-		callback(null, params);
+		return callback(null, params);
 	});
 };
 
@@ -59,7 +61,6 @@ plugin.authenticateSession = function (req, res, callback) {
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
-
 
 		if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
 			return res.redirect(settings.loginURL);
@@ -76,7 +77,7 @@ plugin.authenticateSession = function (req, res, callback) {
 				if (req.uid === originalUid) {
 					return callback();
 				}
-				return res.redirect(req.originalUrl);
+				return res.redirect(req.originalUrl + '?isFromEmbed=' + req.query.isFromEmbed);
 			});
 		} else if (req.user && req.user.uid !== 1) {
 			req.logout();
@@ -103,5 +104,24 @@ plugin.cleanSession = function (params, callback) {
 		callback();
 	});
 };
+
+plugin.addTopicViewVariabels = function (data, callback) {
+	if (data.req.cookies.embed && data.req.cookies.embed.isEmbedView) {
+		data.templateData.breadcrumbs = null;
+		data.templateData.showCategoryLink = true;
+		data.templateData.hideFooter = true;
+	}
+	callback(null, data);
+};
+
+plugin.addCategoryViewVariables = function (data, callback) {
+	if (data.req.cookies.embed && data.req.cookies.embed.isEmbedView) {
+		data.templateData.breadcrumbs = null;
+		data.templateData.showCategoryLink = false;
+		data.templateData.hideFooter = true;
+	}
+	callback(null, data);
+};
+
 
 module.exports = plugin;
