@@ -30,6 +30,7 @@ plugin.init = function (params, callback) {
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
 
+
 	callback();
 };
 
@@ -61,10 +62,10 @@ plugin.addHeaderVariables = function (params, callback) {
 	if (params.req.cookies.embed && params.req.cookies.embed.isEmbedView) {
 		params.templateValues.isEmbedView = true;
 	}
-	meta.settings.get(constants.pluginName, function (err, settings) {
+	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
 		if (err) {
 			return callback({
-				plugin: constants.pluginName,
+				plugin: constants.PLUGIN_NAME,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
@@ -88,10 +89,10 @@ plugin.authenticateSession = function (req, res, callback) {
 	 * 		callback <function>: Callback function.
 	 */
 	var originalUid = req.uid;
-	meta.settings.get(constants.pluginName, function (err, settings) {
+	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
 		if (err) {
 			return callback({
-				plugin: constants.pluginName,
+				plugin: constants.PLUGIN_NAME,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
@@ -131,11 +132,11 @@ plugin.cleanSession = function (params, callback) {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	meta.settings.get(constants.pluginName, function (err, settings) {
+	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
 		if (err) {
 			return callback({
 				code: 'error',
-				plugin: constants.pluginName,
+				plugin: constants.PLUGIN_NAME,
 				message: 'Settings could not be loaded',
 			});
 		}

@@ -24,13 +24,13 @@ authentication.loginByJwtToken = function (req, next) {
 	meta.settings.get('openedx-discussion', function (err, settings) {
 		if (err) {
 			return next({
-				plugin: constants.pluginName,
+				plugin: constants.PLUGIN_NAME,
 				message: '[[plugins:plugin-item.unknown-explanation]]',
 			});
 		}
 		var message = '';
 		if (!settings.hasOwnProperty('secret') || !settings.secret.length) {
-			message = '[' + constants.pluginID + '] "secret"';
+			message = '[' + constants.PLUGIN_ID + '] "secret"';
 		}
 		if (!settings.hasOwnProperty('jwtCookieName') || !settings.jwtCookieName.length) {
 			message += message.length ? ' and "jwtCookieName"' : 'jwtCookieName';
@@ -39,7 +39,7 @@ authentication.loginByJwtToken = function (req, next) {
 		if (message.length) {
 			return next({
 				code: '[[plugins:plugin-item.unknown-explanation]]',
-				plugin: constants.pluginName,
+				plugin: constants.PLUGIN_NAME,
 				message: message,
 			});
 		}
