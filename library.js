@@ -7,6 +7,7 @@ const constants = require('@lib/constants');
 const controllers = require('@lib/controllers');
 const authentication = require('@utils/authentication');
 const helpers = require('@utils/helpers');
+const logger = require('@utils/logger');
 
 const plugin = {};
 
@@ -29,6 +30,10 @@ plugin.init = (params, callback) => {
 	router.get('/embed', hostMiddleware.buildHeader, controllers.embed.embedView);
 	router.get('/api/embed', controllers.embed.embedView);
 
+	router.use((err, req, res, callback) => {
+		logger.error(err);
+		callback(err);
+	});
 
 	callback();
 };
