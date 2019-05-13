@@ -2,14 +2,14 @@
 
 require('module-alias/register');
 
-var meta = require.main.require('./src/meta');
+const meta = require.main.require('./src/meta');
 
-var constants = require('@lib/constants');
-var controllers = require('@lib/controllers');
-var authentication = require('@utils/authentication');
-var helpers = require('@utils/helpers');
+const constants = require('@lib/constants');
+const controllers = require('@lib/controllers');
+const authentication = require('@utils/authentication');
+const helpers = require('@utils/helpers');
 
-var plugin = {};
+const plugin = {};
 
 
 plugin.init = function (params, callback) {
@@ -20,8 +20,8 @@ plugin.init = function (params, callback) {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	var router = params.router;
-	var hostMiddleware = params.middleware;
+	const router = params.router;
+	const hostMiddleware = params.middleware;
 
 
 	router.get('/admin/plugins/openedx-discussion', hostMiddleware.admin.buildHeader, controllers.adminPanel.renderAdminPage);
@@ -85,7 +85,7 @@ plugin.authenticateSession = function (req, res, callback) {
 	 * 		res <Object>: Response object.
 	 * 		callback <function>: Callback function.
 	 */
-	var originalUid = req.uid;
+	const originalUid = req.uid;
 
 	helpers.getPluginSettings(constants.PLUGIN_NAME)
 		.then((settings) => {
@@ -97,7 +97,7 @@ plugin.authenticateSession = function (req, res, callback) {
 
 			var cookieName = settings.jwtCookieName;
 			if (req.cookies[cookieName]) {
-				authentication.loginByJwtToken(req)
+				authentication.loginByJwtToken(req, settings)
 					.then(() => {
 						if (req.uid === originalUid) {
 							return callback();

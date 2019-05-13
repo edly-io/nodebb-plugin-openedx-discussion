@@ -1,16 +1,16 @@
 'use strict';
 
-var { promisify } = require('util');
-var jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 
-var nbbAuthController = require.main.require('./src/controllers/authentication');
-var meta = require.main.require('./src/meta');
-var User = require.main.require('./src/user');
+const nbbAuthController = require.main.require('./src/controllers/authentication');
+const meta = require.main.require('./src/meta');
+const User = require.main.require('./src/user');
 
-var constants = require('@lib/constants');
+const constants = require('@lib/constants');
 
 
-var verifySettings = function (settings, next) {
+const verifySettings = function (settings) {
 	/**
 	 * Verify if all required settings are configured or not.
 	 *
@@ -18,7 +18,7 @@ var verifySettings = function (settings, next) {
 	 * 		Settings <Object>: Plugin settings object
 	 * 		next <function>: Callback function
 	 */
-	var message = '';
+	let message = '';
 	if (!settings.hasOwnProperty('secret') || !settings.secret.length) {
 		message = '[' + constants.PLUGIN_ID + '] "secret"';
 	}
@@ -27,16 +27,16 @@ var verifySettings = function (settings, next) {
 	}
 	message += message.length ? ' setting(s) not configured.' : '';
 	if (message.length) {
-		return next({
+		return {
 			code: '[[plugins:plugin-item.unknown-explanation]]',
 			plugin: constants.PLUGIN_NAME,
 			message: message,
-		});
+		};
 	}
-	return (null, settings);
+	return null;
 };
 
-var verifyUserCookie = function (data, next) {
+var verifyJwtToken = function (token, secret, next) {
 	/**
 	 * Verify JWT token signature with "secret" set in plugin settings.
 	 *
@@ -44,9 +44,9 @@ var verifyUserCookie = function (data, next) {
 	 * 		data <Object>: object containing cookie and "secret" to verify token in cookie
 	 * 		next <funciton>: Callback function
 	 */
-	var user;
+	let user;
 	try {
-		user = jwt.verify(data.cookie, data.secret);
+		user = jwt.verify(token, secret);
 		return next(null, user);
 	} catch (err) {
 		return next(err, null);
@@ -57,7 +57,7 @@ var verifyUserCookie = function (data, next) {
 module.exports = {
 	getPluginSettings: promisify(meta.settings.get),
 	verifySettings: verifySettings,
-	verifyUserCookie: promisify(verifyUserCookie),
+	verifyJwtToken: promisify(verifyJwtToken),
 	getUidByUsername: promisify(User.getUidByUsername),
 	nbbUserLogin: promisify(nbbAuthController.doLogin),
 };

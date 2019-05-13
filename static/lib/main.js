@@ -1,6 +1,6 @@
 'use strict';
 
-var EMBED_COOKIE_NAME = 'embed';
+const EMBED_COOKIE_NAME = 'embed';
 
 function isInIframe() {
 	/**

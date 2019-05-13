@@ -2,19 +2,19 @@
 
 'use strict';
 
-var jwt = require('jsonwebtoken');
-var { promisify } = require('util');
-var User = require.main.require('./src/user');
-var meta = require.main.require('./src/meta');
-var nbbAuthController = require.main.require('./src/controllers/authentication');
+const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+const User = require.main.require('./src/user');
+const meta = require.main.require('./src/meta');
+const nbbAuthController = require.main.require('./src/controllers/authentication');
 
-var constants = require('@lib/constants');
-var helpers = require('@utils/helpers');
+const constants = require('@lib/constants');
+const helpers = require('@utils/helpers');
 
-var authentication = module.exports;
+const authentication = module.exports;
 
 
-var loginByJwtToken = function (req, next) {
+const loginByJwtToken = function (req, settings, next) {
 	/**
 	 * Authenticate and login user by veriying JWT token provided in request cookies.
 	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).
@@ -24,14 +24,15 @@ var loginByJwtToken = function (req, next) {
 	 *	res<Object>: Response object
 	 */
 
-	helpers.getPluginSettings(constants.PLUGIN_NAME)
-		.then(settings => helpers.verifySettings(settings))
-		.then((settings) => {
-			var cookieName = settings.jwtCookieName;
-			var secret = settings.secret;
-			var cookie = req.cookies[cookieName];
-			return helpers.verifyUserCookie({ secret, cookie });
-		})
+	const err = helpers.verifySettings(settings);
+	if (err) {
+		return next(err);
+	}
+
+	const cookieName = settings.jwtCookieName;
+	const secret = settings.secret;
+	const cookie = req.cookies[cookieName];
+	helpers.verifyJwtToken(cookie, secret)
 		.then(user => helpers.getUidByUsername(user.username))
 		.then(uid => helpers.nbbUserLogin(req, uid))
 		.then(() => {
