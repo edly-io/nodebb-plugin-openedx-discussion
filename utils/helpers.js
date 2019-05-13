@@ -10,7 +10,7 @@ const User = require.main.require('./src/user');
 const constants = require('@lib/constants');
 
 
-const verifySettings = function (settings) {
+const verifySettings = (settings) => {
 	/**
 	 * Verify if all required settings are configured or not.
 	 *
@@ -36,7 +36,7 @@ const verifySettings = function (settings) {
 	return null;
 };
 
-var verifyJwtToken = function (token, secret, next) {
+var verifyJwtToken = (token, secret, next) => {
 	/**
 	 * Verify JWT token signature with "secret" set in plugin settings.
 	 *

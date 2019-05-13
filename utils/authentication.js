@@ -14,7 +14,7 @@ const helpers = require('@utils/helpers');
 const authentication = module.exports;
 
 
-const loginByJwtToken = function (req, settings, next) {
+const loginByJwtToken = (req, settings, next) => {
 	/**
 	 * Authenticate and login user by veriying JWT token provided in request cookies.
 	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).

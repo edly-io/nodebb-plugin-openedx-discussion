@@ -12,7 +12,7 @@ const helpers = require('@utils/helpers');
 const plugin = {};
 
 
-plugin.init = function (params, callback) {
+plugin.init = (params, callback) => {
 	/**
 	 * Add plugin routes and middlewares.
 	 *
@@ -34,7 +34,7 @@ plugin.init = function (params, callback) {
 	callback();
 };
 
-plugin.addAdminNavigation = function (header, callback) {
+plugin.addAdminNavigation = (header, callback) => {
 	/**
 	 * Add plugin's admin panel settings route  in admin header.
 	 *
@@ -51,7 +51,7 @@ plugin.addAdminNavigation = function (header, callback) {
 	callback(null, header);
 };
 
-plugin.addHeaderVariables = function (params, callback) {
+plugin.addHeaderVariables = (params, callback) => {
 	/**
 	 * Add plugin variables NodeBB header <head>...</head> before rendering it.
 	 *
@@ -73,7 +73,7 @@ plugin.addHeaderVariables = function (params, callback) {
 		.catch(err => callback(err));
 };
 
-plugin.authenticateSession = function (req, res, callback) {
+plugin.authenticateSession = (req, res, callback) => {
 	/**
 	 * Authenticate user request before every page load.
 	 * IF verified cookie is present then login that user.
@@ -114,7 +114,7 @@ plugin.authenticateSession = function (req, res, callback) {
 		.catch(err => callback(err));
 };
 
-plugin.cleanSession = function (params, callback) {
+plugin.cleanSession = (params, callback) => {
 	/**
 	 * Delete jwt "token" cookie when user logs out from nodebb.
 	 *
@@ -133,7 +133,7 @@ plugin.cleanSession = function (params, callback) {
 };
 
 
-plugin.addTopicViewVariabels = function (data, callback) {
+plugin.addTopicViewVariabels = (data, callback) => {
 	/**
 	 * Add template variables to render EmbedView if request is from iframe
 	 * before sending topic data.
@@ -150,7 +150,7 @@ plugin.addTopicViewVariabels = function (data, callback) {
 	callback(null, data);
 };
 
-plugin.addCategoryViewVariables = function (data, callback) {
+plugin.addCategoryViewVariables = (data, callback) => {
 	/**
 	 * Add template variables to render EmbedView if request is from iframe
 	 * before sending category data.
