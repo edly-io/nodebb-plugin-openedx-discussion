@@ -1,17 +1,20 @@
+/* eslint-disable handle-callback-err */
+
 'use strict';
 
 var jwt = require('jsonwebtoken');
-
+var { promisify } = require('util');
 var User = require.main.require('./src/user');
 var meta = require.main.require('./src/meta');
 var nbbAuthController = require.main.require('./src/controllers/authentication');
 
-var constants = require('@lib/constans');
+var constants = require('@lib/constants');
+var helpers = require('@utils/helpers');
 
 var authentication = module.exports;
 
 
-authentication.loginByJwtToken = function (req, next) {
+var loginByJwtToken = function (req, next) {
 	/**
 	 * Authenticate and login user by veriying JWT token provided in request cookies.
 	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).
@@ -21,54 +24,21 @@ authentication.loginByJwtToken = function (req, next) {
 	 *	res<Object>: Response object
 	 */
 
-	meta.settings.get('openedx-discussion', function (err, settings) {
-		if (err) {
-			return next({
-				plugin: constants.PLUGIN_NAME,
-				message: '[[plugins:plugin-item.unknown-explanation]]',
-			});
-		}
-		var message = '';
-		if (!settings.hasOwnProperty('secret') || !settings.secret.length) {
-			message = '[' + constants.PLUGIN_ID + '] "secret"';
-		}
-		if (!settings.hasOwnProperty('jwtCookieName') || !settings.jwtCookieName.length) {
-			message += message.length ? ' and "jwtCookieName"' : 'jwtCookieName';
-		}
-		message += message.length ? ' setting(s) not configured.' : '';
-		if (message.length) {
-			return next({
-				code: '[[plugins:plugin-item.unknown-explanation]]',
-				plugin: constants.PLUGIN_NAME,
-				message: message,
-			});
-		}
-
-		var cookieName = settings.jwtCookieName;
-		var secret = settings.secret;
-		var cookie = req.cookies[cookieName];
-
-		var user;
-		try {
-			user = jwt.verify(cookie, secret);
-		} catch (err) {
-			return next(err, null);
-		}
-		User.getUidByUsername(user.username, function (err, uid) {
-			if (err) {
-				return next(new Error('[[error:invalid-uid]]'));
-			}
-			nbbAuthController.doLogin(req, uid, function (err) {
-				if (err) {
-					return next({
-						code: '[[error:invalid-login-credentials]]',
-						username: user.username,
-						message: err,
-					});
-				}
-				req.session.loginLock = true;
-				return next();
-			});
-		});
-	});
+	helpers.getPluginSettings(constants.PLUGIN_NAME)
+		.then(settings => helpers.verifySettings(settings))
+		.then((settings) => {
+			var cookieName = settings.jwtCookieName;
+			var secret = settings.secret;
+			var cookie = req.cookies[cookieName];
+			return helpers.verifyUserCookie({ secret, cookie });
+		})
+		.then(user => helpers.getUidByUsername(user.username))
+		.then(uid => helpers.nbbUserLogin(req, uid))
+		.then(() => {
+			req.session.loginLock = true;
+			return next();
+		})
+		.catch(err => next(err));
 };
+
+authentication.loginByJwtToken = promisify(loginByJwtToken);

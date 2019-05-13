@@ -4,10 +4,10 @@ require('module-alias/register');
 
 var meta = require.main.require('./src/meta');
 
-var constants = require('@lib/constans');
+var constants = require('@lib/constants');
 var controllers = require('@lib/controllers');
 var authentication = require('@utils/authentication');
-
+var helpers = require('@utils/helpers');
 
 var plugin = {};
 
@@ -62,18 +62,15 @@ plugin.addHeaderVariables = function (params, callback) {
 	if (params.req.cookies.embed && params.req.cookies.embed.isEmbedView) {
 		params.templateValues.isEmbedView = true;
 	}
-	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
-		if (err) {
-			return callback({
-				plugin: constants.PLUGIN_NAME,
-				message: '[[plugins:plugin-item.unknown-explanation]]',
-			});
-		}
-		params.templateValues.loginURL = settings.loginURL;
-		params.templateValues.registrationURL = settings.registrationURL;
-		params.templateValues.logoutURL = settings.logoutURL;
-		return callback(null, params);
-	});
+
+	helpers.getPluginSettings(constants.PLUGIN_NAME)
+		.then((settings) => {
+			params.templateValues.loginURL = settings.loginURL;
+			params.templateValues.registrationURL = settings.registrationURL;
+			params.templateValues.logoutURL = settings.logoutURL;
+			return callback(null, params);
+		})
+		.catch(err => callback(err));
 };
 
 plugin.authenticateSession = function (req, res, callback) {
@@ -89,40 +86,33 @@ plugin.authenticateSession = function (req, res, callback) {
 	 * 		callback <function>: Callback function.
 	 */
 	var originalUid = req.uid;
-	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
-		if (err) {
-			return callback({
-				plugin: constants.PLUGIN_NAME,
-				message: '[[plugins:plugin-item.unknown-explanation]]',
-			});
-		}
 
-		if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
-			return res.redirect(settings.loginURL);
-		} else if (req.path === '/register' && settings.registrationURL) {
-			return res.redirect(settings.registrationURL);
-		}
+	helpers.getPluginSettings(constants.PLUGIN_NAME)
+		.then((settings) => {
+			if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
+				return res.redirect(settings.loginURL);
+			} else if (req.path === '/register' && settings.registrationURL) {
+				return res.redirect(settings.registrationURL);
+			}
 
-		var cookieName = settings.jwtCookieName;
-		if (req.cookies[cookieName]) {
-			authentication.loginByJwtToken(req, function (err) {
-				if (err) {
-					return callback(err);
-				}
-				if (req.uid === originalUid) {
-					return callback();
-				}
-				return res.redirect(req.originalUrl);
-			});
-		} else if (req.user && req.user.uid !== 1) {
-			req.logout();
-			return res.redirect('/login');
-		} else {
-			return callback();
-		}
-	});
+			var cookieName = settings.jwtCookieName;
+			if (req.cookies[cookieName]) {
+				authentication.loginByJwtToken(req)
+					.then(() => {
+						if (req.uid === originalUid) {
+							return callback();
+						}
+						return res.redirect(req.originalUrl);
+					});
+			} else if (req.user && req.user.uid !== 1) {
+				req.logout();
+				return res.redirect('/login');
+			} else {
+				return callback();
+			}
+		})
+		.catch(err => callback(err));
 };
-
 
 plugin.cleanSession = function (params, callback) {
 	/**
@@ -132,20 +122,16 @@ plugin.cleanSession = function (params, callback) {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	meta.settings.get(constants.PLUGIN_NAME, function (err, settings) {
-		if (err) {
-			return callback({
-				code: 'error',
-				plugin: constants.PLUGIN_NAME,
-				message: 'Settings could not be loaded',
-			});
-		}
-		if (settings.jwtCookieName) {
-			params.res.clearCookie(settings.jwtCookieName);
-		}
-		callback();
-	});
+	helpers.getPluginSettings(constants.PLUGIN_NAME)
+		.then((settings) => {
+			if (settings.jwtCookieName) {
+				params.res.clearCookie(settings.jwtCookieName);
+			}
+			callback();
+		})
+		.catch(err => callback(err));
 };
+
 
 plugin.addTopicViewVariabels = function (data, callback) {
 	/**
@@ -174,6 +160,7 @@ plugin.addCategoryViewVariables = function (data, callback) {
 	 * 		callback <function>: callback function.
 	 */
 	if (data.req.cookies.embed && data.req.cookies.embed.isEmbedView) {
+		data.templateData.isEmbedView = true;
 		data.templateData.breadcrumbs = null;
 		data.templateData.showCategoryLink = false;
 		data.templateData.hideFooter = true;
