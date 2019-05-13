@@ -2,13 +2,8 @@
 
 'use strict';
 
-const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
-const User = require.main.require('./src/user');
-const meta = require.main.require('./src/meta');
-const nbbAuthController = require.main.require('./src/controllers/authentication');
 
-const constants = require('@lib/constants');
 const helpers = require('@utils/helpers');
 
 const authentication = module.exports;

@@ -2,7 +2,6 @@
 
 require('module-alias/register');
 
-const meta = require.main.require('./src/meta');
 
 const constants = require('@lib/constants');
 const controllers = require('@lib/controllers');
