@@ -7,7 +7,6 @@ const meta = require.main.require('./src/meta').async;
 const constants = require('@lib/constants');
 const controllers = require('@lib/controllers');
 const authentication = require('@utils/authentication');
-const helpers = require('@utils/helpers');
 const logger = require('@utils/logger');
 
 const plugin = {};
@@ -69,7 +68,7 @@ plugin.addHeaderVariables = (params, callback) => {
 	}
 
 	meta.settings.get(constants.PLUGIN_NAME)
-		.then((settings) => {
+		.then(settings => {
 			params.templateValues.loginURL = settings.loginURL;
 			params.templateValues.registrationURL = settings.registrationURL;
 			params.templateValues.logoutURL = settings.logoutURL;
@@ -93,7 +92,7 @@ plugin.authenticateSession = (req, res, callback) => {
 	const originalUid = req.uid;
 
 	meta.settings.get(constants.PLUGIN_NAME)
-		.then((settings) => {
+		.then(settings => {
 			if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
 				return res.redirect(settings.loginURL);
 			} else if (req.path === '/register' && settings.registrationURL) {
@@ -128,7 +127,7 @@ plugin.cleanSession = (params, callback) => {
 	 * 		callback <function>: callback function.
 	 */
 	meta.settings.get(constants.PLUGIN_NAME)
-		.then((settings) => {
+		.then(settings => {
 			if (settings.jwtCookieName) {
 				params.res.clearCookie(settings.jwtCookieName);
 			}

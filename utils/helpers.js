@@ -7,7 +7,7 @@ const nbbAuthController = require.main.require('./src/controllers/authentication
 const constants = require('@lib/constants');
 
 
-const verifySettings = (settings) => {
+const verifySettings = settings => {
 	/**
 	 * Verify if all required settings are configured or not.
 	 *
