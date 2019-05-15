@@ -3,6 +3,9 @@
 'use strict';
 
 const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+
+const User = require.main.require('./src/user').async;
 
 const helpers = require('@utils/helpers');
 
@@ -27,8 +30,13 @@ const loginByJwtToken = (req, settings, next) => {
 	const cookieName = settings.jwtCookieName;
 	const secret = settings.secret;
 	const cookie = req.cookies[cookieName];
-	helpers.verifyJwtToken(cookie, secret)
-		.then(user => helpers.getUidByUsername(user.username))
+	let user;
+	try {
+		user = jwt.verify(cookie, secret);
+	} catch (err) {
+		return next(err);
+	}
+	User.getUidByUsername(user.username)
 		.then(uid => helpers.nbbUserLogin(req, uid))
 		.then(() => {
 			req.session.loginLock = true;

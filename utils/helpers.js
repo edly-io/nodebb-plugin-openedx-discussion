@@ -1,11 +1,8 @@
 'use strict';
 
 const { promisify } = require('util');
-const jwt = require('jsonwebtoken');
 
 const nbbAuthController = require.main.require('./src/controllers/authentication');
-const meta = require.main.require('./src/meta');
-const User = require.main.require('./src/user');
 
 const constants = require('@lib/constants');
 
@@ -36,28 +33,7 @@ const verifySettings = (settings) => {
 	return null;
 };
 
-var verifyJwtToken = (token, secret, next) => {
-	/**
-	 * Verify JWT token signature with "secret" set in plugin settings.
-	 *
-	 * Args:
-	 * 		data <Object>: object containing cookie and "secret" to verify token in cookie
-	 * 		next <funciton>: Callback function
-	 */
-	let user;
-	try {
-		user = jwt.verify(token, secret);
-		return next(null, user);
-	} catch (err) {
-		return next(err, null);
-	}
-};
-
-
 module.exports = {
-	getPluginSettings: promisify(meta.settings.get),
 	verifySettings: verifySettings,
-	verifyJwtToken: promisify(verifyJwtToken),
-	getUidByUsername: promisify(User.getUidByUsername),
 	nbbUserLogin: promisify(nbbAuthController.doLogin),
 };

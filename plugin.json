@@ -25,7 +25,7 @@
 		},
 		{
 			"hook": "filter:topic.build",
-			"method": "addTopicViewVariabels"
+			"method": "addTopicViewVariables"
 		},
 		{
 			"hook": "filter:category.build",

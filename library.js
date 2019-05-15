@@ -2,6 +2,7 @@
 
 require('module-alias/register');
 
+const meta = require.main.require('./src/meta').async;
 
 const constants = require('@lib/constants');
 const controllers = require('@lib/controllers');
@@ -67,7 +68,7 @@ plugin.addHeaderVariables = (params, callback) => {
 		params.templateValues.isEmbedView = true;
 	}
 
-	helpers.getPluginSettings(constants.PLUGIN_NAME)
+	meta.settings.get(constants.PLUGIN_NAME)
 		.then((settings) => {
 			params.templateValues.loginURL = settings.loginURL;
 			params.templateValues.registrationURL = settings.registrationURL;
@@ -91,7 +92,7 @@ plugin.authenticateSession = (req, res, callback) => {
 	 */
 	const originalUid = req.uid;
 
-	helpers.getPluginSettings(constants.PLUGIN_NAME)
+	meta.settings.get(constants.PLUGIN_NAME)
 		.then((settings) => {
 			if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
 				return res.redirect(settings.loginURL);
@@ -126,7 +127,7 @@ plugin.cleanSession = (params, callback) => {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	helpers.getPluginSettings(constants.PLUGIN_NAME)
+	meta.settings.get(constants.PLUGIN_NAME)
 		.then((settings) => {
 			if (settings.jwtCookieName) {
 				params.res.clearCookie(settings.jwtCookieName);
@@ -137,7 +138,7 @@ plugin.cleanSession = (params, callback) => {
 };
 
 
-plugin.addTopicViewVariabels = (data, callback) => {
+plugin.addTopicViewVariables = (data, callback) => {
 	/**
 	 * Add template variables to render EmbedView if request is from iframe
 	 * before sending topic data.
