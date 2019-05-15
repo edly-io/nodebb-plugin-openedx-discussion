@@ -147,7 +147,7 @@ plugin.addTopicViewVariables = (data, callback) => {
 	 * 		data <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	if (data.req.cookies.embed && data.req.cookies.embed.isEmbedView) {
+	if (data.req.cookies.embed) {
 		data.templateData.breadcrumbs = null;
 		data.templateData.showCategoryLink = true;
 		data.templateData.hideFooter = true;
@@ -164,7 +164,7 @@ plugin.addCategoryViewVariables = (data, callback) => {
 	 * 		data <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	if (data.req.cookies.embed && data.req.cookies.embed.isEmbedView) {
+	if (data.req.cookies.embed) {
 		data.templateData.isEmbedView = true;
 		data.templateData.breadcrumbs = null;
 		data.templateData.showCategoryLink = false;
