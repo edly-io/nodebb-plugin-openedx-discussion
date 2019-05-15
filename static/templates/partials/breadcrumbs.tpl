@@ -15,6 +15,7 @@
 	<!-- END breadcrumbs -->
 </ol>
 <!-- ENDIF breadcrumbs.length -->
+
 <!-- IF showCategoryLink -->
 <ol class="breadcrumb">
 	<li component="breadcrumb/current"itemscope="itemscope" >
@@ -25,4 +26,4 @@
 		</a>
 	</li>
 </ol>
-<!-- ENDIF breadcrumbsAlternateLink -->
+<!-- ENDIF showCategoryLinks -->

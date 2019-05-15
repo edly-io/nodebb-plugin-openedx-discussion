@@ -1,18 +1,40 @@
 'use strict';
 
-$(document).ready(function () {
-	$(window).on('action:app.loggedOut', function (event, data) {
-		/**
-		 *	Redirect user to Open Edx logout URL to get the user logged out from Open Edx when user logs out
-		 * 	from NodeBB.
-		 *
-		 *	Args:
-		 *		event <Object>: Object containing event information
-		 *		data <Object>: Response data from the server for the action performed.
-		 *
-		 */
-		if (logoutURL) {
-			window.location.href = logoutURL;
-		}
-	});
+const EMBED_COOKIE_NAME = 'embed';
+
+function isInIframe() {
+	/**
+	 * Return true if this function is called from within an iframe.
+	 */
+	return window.location !== window.parent.location;
+}
+
+function eraseCookie(name) {
+	/**
+	 * Delete a cookie named "name"
+	 *
+	 * Args:
+	 * 		name <String>: Name of cookie to be deleted
+	 */
+	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+}
+
+
+$(window).on('action:app.load', function (event, data) {
+	/**
+	 * When app is loaded, check if app is loaded from an iframe and if there is "embed" cookie present.
+	 * IF app is not loaded from iframe and the cookie is present then
+	 * delete the cookie and reload the page.
+	 * ELSE do nothing.
+	 *
+	 *  NOTE: We are only required to relaod page once. On first reload, save variable into local storage,
+	 *	and once reloaded, delete that variable and do nothing else.
+	 */
+	if (localStorage.getItem('isReloaded')) {
+		localStorage.removeItem('isReloaded');
+	} else if (!isInIframe() && document.cookie.indexOf(EMBED_COOKIE_NAME) >= 0) {
+		eraseCookie(EMBED_COOKIE_NAME);
+		localStorage.setItem('isReloaded', true);
+		location.reload();
+	}
 });

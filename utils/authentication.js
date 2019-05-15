@@ -1,16 +1,18 @@
+/* eslint-disable handle-callback-err */
+
 'use strict';
 
-var jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 
-var User = require.main.require('./src/user');
-var meta = require.main.require('./src/meta');
-var nbbAuthController = require.main.require('./src/controllers/authentication');
+const { async: User } = require.main.require('./src/user');
+
+const helpers = require('@utils/helpers');
+
+const authentication = module.exports;
 
 
-var authentication = module.exports;
-
-
-authentication.loginByJwtToken = function (req, next) {
+const loginByJwtToken = async (req, settings, next) => {
 	/**
 	 * Authenticate and login user by veriying JWT token provided in request cookies.
 	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).
@@ -20,59 +22,19 @@ authentication.loginByJwtToken = function (req, next) {
 	 *	res<Object>: Response object
 	 */
 
-	meta.settings.get('openedx-discussion', function (err, settings) {
-		if (err) {
-			return next({
-				code: 'error',
-				plugin: 'openedx-discussion',
-				message: 'Settings could not be loaded',
-			});
-		}
-		var message = '';
-		if (!settings.hasOwnProperty('secret') || !settings.secret.length) {
-			message = '[nodebb-plugin-openedx-discussion] "secret"';
-		}
-		if (!settings.hasOwnProperty('jwtCookieName') || !settings.jwtCookieName.length) {
-			message += message.length ? ' and "jwtCookieName"' : 'jwtCookieName';
-		}
-		message += message.length ? ' setting(s) not configured.' : '';
-		if (message.length) {
-			return next({
-				code: 'error',
-				plugin: 'openedx-discussion',
-				message: message,
-			});
-		}
-
+	try {
+		helpers.verifySettings(settings);
 		const cookieName = settings.jwtCookieName;
 		const secret = settings.secret;
 		const cookie = req.cookies[cookieName];
-
-		var user;
-		try {
-			user = jwt.verify(cookie, secret);
-		} catch (err) {
-			return next(err, null);
-		}
-		User.getUidByUsername(user.username, function (err, uid) {
-			if (err) {
-				return next({
-					code: 'bad-request',
-					username: user.username,
-					message: 'User does not exist',
-				});
-			}
-			nbbAuthController.doLogin(req, uid, function (err) {
-				if (err) {
-					return next({
-						code: 'bad-request',
-						username: user.username,
-						message: err,
-					});
-				}
-				req.session.loginLock = true;
-				return next();
-			});
-		});
-	});
+		const user = jwt.verify(cookie, secret);
+		const uid = await User.getUidByUsername(user.username);
+		await helpers.nbbUserLogin(req, uid);
+		req.session.loginLock = true;
+		return next();
+	} catch (err) {
+		return next(err);
+	}
 };
+
+authentication.loginByJwtToken = promisify(loginByJwtToken);

@@ -133,6 +133,13 @@
 							</li>
 							<!-- ENDIF showModMenu -->
 							<li role="presentation" class="divider"></li>
+							<!--IF logoutURL -->
+							<li component="user/logoutRedirect">
+								<a href={logoutURL}>
+									<i class="fa fa-fw fa-ban"></i> <span>[[global:logout]]</span>
+								</a>
+							</li>
+							<!-- ELSE -->
 							<li component="user/logout">
 								<form method="post" action="{relative_path}/logout">
 									<input type="hidden" name="_csrf" value="{config.csrf_token}">
@@ -142,6 +149,7 @@
 									</button>
 								</form>
 							</li>
+							<!-- ENDIF logoutURL -->
 						</ul>
 					</li>
 
