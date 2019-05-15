@@ -100,7 +100,7 @@ plugin.authenticateSession = (req, res, callback) => {
 				return res.redirect(settings.registrationURL);
 			}
 
-			var cookieName = settings.jwtCookieName;
+			const cookieName = settings.jwtCookieName;
 			if (req.cookies[cookieName]) {
 				authentication.loginByJwtToken(req, settings)
 					.then(() => {
