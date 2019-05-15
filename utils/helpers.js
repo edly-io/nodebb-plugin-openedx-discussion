@@ -24,11 +24,11 @@ const verifySettings = settings => {
 	}
 	message += message.length ? ' setting(s) not configured.' : '';
 	if (message.length) {
-		return {
+		throw new Error({
 			code: '[[plugins:plugin-item.unknown-explanation]]',
 			plugin: constants.PLUGIN_NAME,
 			message: message,
-		};
+		});
 	}
 	return null;
 };

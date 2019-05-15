@@ -69,6 +69,7 @@ plugin.addHeaderVariables = (params, callback) => {
 
 	meta.settings.get(constants.PLUGIN_NAME)
 		.then(settings => {
+			params.templateValues.isEmbedView = params.req.cookies.embed;
 			params.templateValues.loginURL = settings.loginURL;
 			params.templateValues.registrationURL = settings.registrationURL;
 			params.templateValues.logoutURL = settings.logoutURL;
@@ -77,7 +78,7 @@ plugin.addHeaderVariables = (params, callback) => {
 		.catch(err => callback(err));
 };
 
-plugin.authenticateSession = (req, res, callback) => {
+plugin.authenticateSession = async (req, res, callback) => {
 	/**
 	 * Authenticate user request before every page load.
 	 * IF verified cookie is present then login that user.
@@ -91,31 +92,30 @@ plugin.authenticateSession = (req, res, callback) => {
 	 */
 	const originalUid = req.uid;
 
-	meta.settings.get(constants.PLUGIN_NAME)
-		.then(settings => {
-			if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
-				return res.redirect(settings.loginURL);
-			} else if (req.path === '/register' && settings.registrationURL) {
-				return res.redirect(settings.registrationURL);
-			}
+	const settings = await meta.settings.get(constants.PLUGIN_NAME);
+	if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
+		return res.redirect(settings.loginURL);
+	} else if (req.path === '/register' && settings.registrationURL) {
+		return res.redirect(settings.registrationURL);
+	}
 
-			const cookieName = settings.jwtCookieName;
-			if (req.cookies[cookieName]) {
-				authentication.loginByJwtToken(req, settings)
-					.then(() => {
-						if (req.uid === originalUid) {
-							return callback();
-						}
-						return res.redirect(req.originalUrl);
-					});
-			} else if (req.user && req.user.uid !== 1) {
-				req.logout();
-				return res.redirect('/login');
-			} else {
-				return callback();
-			}
-		})
-		.catch(err => callback(err));
+	const cookieName = settings.jwtCookieName;
+	if (req.cookies[cookieName]) {
+		try {
+			await authentication.loginByJwtToken(req, settings);
+		} catch (err) {
+			return callback(err);
+		}
+
+		if (req.uid === originalUid) {
+			return callback();
+		}
+		return res.redirect(req.originalUrl);
+	} else if (req.user && req.user.uid !== 1) {
+		req.logout();
+		return res.redirect('/login');
+	}
+	return callback();
 };
 
 plugin.cleanSession = (params, callback) => {
@@ -147,6 +147,7 @@ plugin.addTopicViewVariables = (data, callback) => {
 	 * 		callback <function>: callback function.
 	 */
 	if (data.req.cookies.embed) {
+		data.templateData.isEmbedView = true;
 		data.templateData.breadcrumbs = null;
 		data.templateData.showCategoryLink = true;
 		data.templateData.hideFooter = true;

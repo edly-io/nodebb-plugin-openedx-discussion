@@ -12,7 +12,7 @@ const helpers = require('@utils/helpers');
 const authentication = module.exports;
 
 
-const loginByJwtToken = (req, settings, next) => {
+const loginByJwtToken = async (req, settings, next) => {
 	/**
 	 * Authenticate and login user by veriying JWT token provided in request cookies.
 	 * Name of cookie and "secret" to verify Token are obtained from plugin settings (configurable from admin panel).
@@ -22,8 +22,10 @@ const loginByJwtToken = (req, settings, next) => {
 	 *	res<Object>: Response object
 	 */
 
-	const err = helpers.verifySettings(settings);
-	if (err) {
+	try {
+		helpers.verifySettings(settings);
+	} catch (err) {
+		// Required settings are not present
 		return next(err);
 	}
 
@@ -34,15 +36,18 @@ const loginByJwtToken = (req, settings, next) => {
 	try {
 		user = jwt.verify(cookie, secret);
 	} catch (err) {
+		// Invalid secret
 		return next(err);
 	}
-	User.getUidByUsername(user.username)
-		.then(uid => helpers.nbbUserLogin(req, uid))
-		.then(() => {
-			req.session.loginLock = true;
-			return next();
-		})
-		.catch(err => next(err));
+
+	try {
+		const uid = await User.getUidByUsername(user.username);
+		await helpers.nbbUserLogin(req, uid);
+		req.session.loginLock = true;
+		return next();
+	} catch (err) {
+		return next(err);
+	}
 };
 
 authentication.loginByJwtToken = promisify(loginByJwtToken);

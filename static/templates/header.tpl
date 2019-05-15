@@ -36,7 +36,7 @@
 			<div class="container">
 				<!-- IF !isEmbedView -->
 					<!-- IMPORT partials/menu.tpl -->
-				<!-- END -->
+				<!-- ENDIF isEmbedView -->
 			</div>
 		</nav>
 		<div class="container" id="content">
