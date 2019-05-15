@@ -2,7 +2,7 @@
 
 require('module-alias/register');
 
-const meta = require.main.require('./src/meta').async;
+const { async: meta } = require.main.require('./src/meta');
 
 const constants = require('@lib/constants');
 const controllers = require('@lib/controllers');
@@ -55,7 +55,7 @@ plugin.addAdminNavigation = (header, callback) => {
 	callback(null, header);
 };
 
-plugin.addHeaderVariables = (params, callback) => {
+plugin.addHeaderVariables = async (params, callback) => {
 	/**
 	 * Add plugin variables NodeBB header <head>...</head> before rendering it.
 	 *
@@ -66,16 +66,16 @@ plugin.addHeaderVariables = (params, callback) => {
 	if (params.req.cookies.embed && params.req.cookies.embed.isEmbedView) {
 		params.templateValues.isEmbedView = true;
 	}
-
-	meta.settings.get(constants.PLUGIN_NAME)
-		.then(settings => {
-			params.templateValues.isEmbedView = params.req.cookies.embed;
-			params.templateValues.loginURL = settings.loginURL;
-			params.templateValues.registrationURL = settings.registrationURL;
-			params.templateValues.logoutURL = settings.logoutURL;
-			return callback(null, params);
-		})
-		.catch(err => callback(err));
+	try {
+		const settings = await meta.settings.get(constants.PLUGIN_NAME);
+		params.templateValues.isEmbedView = params.req.cookies.embed;
+		params.templateValues.loginURL = settings.loginURL;
+		params.templateValues.registrationURL = settings.registrationURL;
+		params.templateValues.logoutURL = settings.logoutURL;
+		return callback(null, params);
+	} catch (err) {
+		callback(err);
+	}
 };
 
 plugin.authenticateSession = async (req, res, callback) => {
@@ -91,34 +91,34 @@ plugin.authenticateSession = async (req, res, callback) => {
 	 * 		callback <function>: Callback function.
 	 */
 	const originalUid = req.uid;
+	try {
+		const settings = await meta.settings.get(constants.PLUGIN_NAME);
+		if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
+			return res.redirect(settings.loginURL);
+		} else if (req.path === '/register' && settings.registrationURL) {
+			return res.redirect(settings.registrationURL);
+		}
 
-	const settings = await meta.settings.get(constants.PLUGIN_NAME);
-	if (req.path === '/login' && settings.loginURL && req.session.returnTo !== '/admin') {
-		return res.redirect(settings.loginURL);
-	} else if (req.path === '/register' && settings.registrationURL) {
-		return res.redirect(settings.registrationURL);
-	}
-
-	const cookieName = settings.jwtCookieName;
-	if (req.cookies[cookieName]) {
-		try {
+		const cookieName = settings.jwtCookieName;
+		if (req.cookies[cookieName]) {
 			await authentication.loginByJwtToken(req, settings);
-		} catch (err) {
-			return callback(err);
-		}
 
-		if (req.uid === originalUid) {
-			return callback();
+			if (req.uid === originalUid) {
+				return callback();
+			}
+
+			return res.redirect(req.originalUrl);
+		} else if (req.user && req.user.uid !== 1) {
+			req.logout();
+			return res.redirect('/login');
 		}
-		return res.redirect(req.originalUrl);
-	} else if (req.user && req.user.uid !== 1) {
-		req.logout();
-		return res.redirect('/login');
+		return callback();
+	} catch (err) {
+		return callback(err);
 	}
-	return callback();
 };
 
-plugin.cleanSession = (params, callback) => {
+plugin.cleanSession = async (params, callback) => {
 	/**
 	 * Delete jwt "token" cookie when user logs out from nodebb.
 	 *
@@ -126,14 +126,15 @@ plugin.cleanSession = (params, callback) => {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	meta.settings.get(constants.PLUGIN_NAME)
-		.then(settings => {
-			if (settings.jwtCookieName) {
-				params.res.clearCookie(settings.jwtCookieName);
-			}
-			callback();
-		})
-		.catch(err => callback(err));
+	try {
+		const settings = await meta.settings.get(constants.PLUGIN_NAME);
+		if (settings.jwtCookieName) {
+			params.res.clearCookie(settings.jwtCookieName);
+		}
+		callback();
+	} catch (err) {
+		callback(err);
+	}
 };
 
 

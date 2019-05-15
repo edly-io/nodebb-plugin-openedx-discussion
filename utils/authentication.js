@@ -5,7 +5,7 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
-const User = require.main.require('./src/user').async;
+const { async: User } = require.main.require('./src/user');
 
 const helpers = require('@utils/helpers');
 
@@ -24,23 +24,10 @@ const loginByJwtToken = async (req, settings, next) => {
 
 	try {
 		helpers.verifySettings(settings);
-	} catch (err) {
-		// Required settings are not present
-		return next(err);
-	}
-
-	const cookieName = settings.jwtCookieName;
-	const secret = settings.secret;
-	const cookie = req.cookies[cookieName];
-	let user;
-	try {
-		user = jwt.verify(cookie, secret);
-	} catch (err) {
-		// Invalid secret
-		return next(err);
-	}
-
-	try {
+		const cookieName = settings.jwtCookieName;
+		const secret = settings.secret;
+		const cookie = req.cookies[cookieName];
+		const user = jwt.verify(cookie, secret);
 		const uid = await User.getUidByUsername(user.username);
 		await helpers.nbbUserLogin(req, uid);
 		req.session.loginLock = true;
