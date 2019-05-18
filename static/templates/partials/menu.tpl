@@ -159,9 +159,9 @@
 					<!-- IF allowRegistration -->
 					<li>
 						<!-- IF registrationURL -->
-						<a href="{registrationURL}">
+						<a class="btn btn-default btn-register" href="{registrationURL}">
 						<!-- ELSE -->
-						<a href="{relative_path}/register">
+						<a class="btn btn-default btn-register" href="{relative_path}/register">
 						<!-- ENDIF -->
 							<i class="fa fa-pencil fa-fw hidden-sm hidden-md hidden-lg"></i>
 							<span>[[global:register]]</span>
@@ -170,12 +170,12 @@
 					<!-- ENDIF allowRegistration -->
 					<li>
 						<!-- IF loginURL -->
-						<a href="{loginURL}">
+						<a class="btn btn-primary btn-login" href="{loginURL}">
 						<!-- ELSE -->
-						<a href="{relative_path}/login">
+						<a class="btn btn-primary btn-login" href="{relative_path}/login">
 						<!-- ENDIF -->
 							<i class="fa fa-sign-in fa-fw hidden-sm hidden-md hidden-lg"></i>
-							<span>[[global:login]]</span>
+							<span>[[global:Sign]] [[global:in]]</span>
 						</a>
 					</li>
 				</ul>
