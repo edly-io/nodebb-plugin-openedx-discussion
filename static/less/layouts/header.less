@@ -1,0 +1,184 @@
+.header {
+
+    .forum-logo {
+        max-height: 40px;
+        margin-top: 15px;
+    }
+}
+
+// Header Customizations
+
+#header-menu {
+    border-bottom: 1px solid @color__brand;
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.1);
+    background: white;
+	line-height: 1.5;
+	height: 66px;
+	
+	.container {
+		width: 100%;
+		padding: 0 40px;
+	}
+
+	.navbar-brand {
+		padding: 24px 15px;
+		height: 66px;	
+	}
+
+	#main-nav {
+		margin: 24px 0 0 20px;
+
+		li {
+			margin: 0 20px;
+
+			a {
+				color: #313131;
+				padding: 0;
+				font-size: 16px;
+			}
+
+			&.active {
+				
+				a {
+					background: none;
+				}
+
+				&:after {
+					content: '';
+					width: ~"calc(100% + 40px)";
+					height: 4px;
+					background: @color__brand;
+					position: absolute;
+					left: -20px;
+					right: -20px;
+					bottom: -21px;
+					margin: auto;
+				}
+			}
+		}
+	}
+
+	#nav-dropdown {
+
+		#logged-out-menu {
+			margin: 15px 0 0 0;
+			padding: 5px 0 0;
+				
+			li {
+				margin: 0 10px;
+
+				a {
+					font-size: 16px;
+					padding: 6px 20px;
+					color: @color__brand;
+					border: 1px solid @color__brand;
+					border-radius: @border__radius-base;
+					
+					&:hover {
+						color: white;
+						background: @color__brand;
+						border-color: @color__brand;
+					}
+
+					&.btn-login {
+						color: white;
+						margin-left: 5px;
+						background: @color__brand;
+						border: 1px solid white;
+
+						&:hover {
+							background: white;
+							color: @color__brand;
+							border-color: @color__brand;
+						}
+					}
+				}
+			}
+		}
+
+		#logged-in-menu {
+			margin: 24px 0 0 20px;
+
+			li.dropdown {
+				margin: 0 20px;
+
+				> a {
+					color: #313131;
+					padding: 0;
+					font-size: 16px;
+				}
+
+				&.open {
+
+					a, label {
+						background: none;
+					}
+				}
+				
+				> label {
+					margin: -5px 0 0;
+					padding: 0;
+				}
+
+				.dropdown-menu {
+
+					border: 1px solid #313131;
+					position: absolute;
+					background-color: white;
+					color: #313131;
+					z-index: 10;
+					padding: 0;
+					box-shadow: none;
+
+					li {
+						border-bottom: 1px solid #e7e7e7;
+						
+						&:last-child {
+							border-bottom: 0;
+						}
+
+						a, .btn-link {
+							font-weight: 400;
+							padding: 10px 15px;
+							display: inline-block;
+							width: 100%;
+							font-size: 16px;
+							color: #313131;
+
+							&:hover {
+								background: #e7e7e7;
+							}
+						}
+
+						&.divider {
+							display: none;
+						}
+
+						// i {
+						// 	display: none;
+						// }
+					}
+				}
+
+				&.chats,
+				&.notifications {
+
+					.dropdown-menu {
+						
+						li {
+							padding: 0;
+						}
+					}
+
+					.chat-list {
+						margin: 0;
+						
+						li {
+							display: flex;
+						}
+					}
+				}
+			}
+		}
+	}
+}

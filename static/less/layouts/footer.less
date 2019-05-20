@@ -1,0 +1,100 @@
+[widget-area="footer"] {
+    position: inherit;
+}
+
+footer {
+    margin: 0 auto;
+    font-size: 16px;
+    max-width: 1920px;
+    box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.1);
+    border-top: 1px solid #c5c6c7;
+    padding: 22px 10px 29px 10px;
+    background: white;
+    clear: both;
+    
+    &.footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom:0;
+        width: 100%;
+
+        .colophon {
+            float: left;
+            display: block;
+            margin-right: 2.35765%;
+            width: 65.88078%;
+            text-align: left;
+
+            .nav-colophon {
+                margin: 5px 0 27px 0;
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        float: left;
+                        list-style: none;
+                        margin-right: 15px;
+    
+                        a {
+                            color: #333;
+                            font-size: 16px;
+
+                            &:hover {
+                                color: @color__brand;
+                            }
+                        }
+                    }
+
+                    &:before,
+                    &:after {
+                        content: "";
+                        display: table;
+                    }
+                    
+                    &:after {
+                        clear: both;
+                    }
+                }
+            }
+
+            .wrapper-logo {
+                margin: 15px 0;
+
+                img {
+                    height: auto;
+                    max-width: 200px;
+                }
+            }
+
+            .copyright {
+                padding-bottom: 0;
+                margin: -2px 0 6px 0;
+                font-size: 0.6875em;
+                color: #767676;
+                text-align: left;
+            }
+
+            .nav-legal {
+                text-align: left;
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        display: inline-block;
+                        font-size: 0.6875em;
+
+                        &:not(:first-child) a::before {
+                            content: "-";
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
