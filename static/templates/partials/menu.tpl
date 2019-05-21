@@ -133,7 +133,7 @@
 							</li>
 							<!-- ENDIF showModMenu -->
 							<li role="presentation" class="divider"></li>
-							<!--IF logoutURL -->
+							<!-- IF logoutURL -->
 							<li component="user/logoutRedirect">
 								<a href={logoutURL}>
 									<i class="fa fa-fw fa-ban"></i> <span>[[global:logout]]</span>
