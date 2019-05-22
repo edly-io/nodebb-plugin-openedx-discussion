@@ -63,7 +63,7 @@ plugin.addHeaderVariables = async (params, callback) => {
 	 * 		params <Object>: params passed by NodeBB.
 	 * 		callback <function>: callback function.
 	 */
-	if (params.req.cookies.embed && params.req.cookies.embed.isEmbedView) {
+	if (params.req.cookies.embed) {
 		params.templateValues.isEmbedView = true;
 	}
 	try {

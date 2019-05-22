@@ -6,7 +6,11 @@ const assert = require('assert');
 
 const { NODEBB_URL, USER, JWT_COOKIE_NAME, JWT_SECRET } = require('./config');
 
-const nodeBBServer = supertest.agent(NODEBB_URL);
+
+const nodeBBServer = supertest(NODEBB_URL);
+
+
+const DEFAULT_TIMEOUT = 5000;
 
 describe('NodeBB embed view test', () => {
 	const user = {
@@ -16,6 +20,22 @@ describe('NodeBB embed view test', () => {
 	const EMBED_COOKIE_NAME = 'embed';
 
 
+	it('verifies the "embed" cookie in response of request to "/embed" endpoint', done => {
+		const EMBED_COOKIE = 'embed=true;';
+		nodeBBServer
+			.get('/embed')
+			.query({ category_id: 1 })
+			.set('Cookie', `${JWT_COOKIE_NAME}=${encodedUsername}`)
+			.expect(302)
+			.expect('Content-Type', /text\/plain/)
+			.end((err, res) => {
+				if (err) return done(err);
+				const cookieStatus = res.headers['set-cookie'].some(cookie => cookie.indexOf(EMBED_COOKIE) >= 0) ?
+					null : new Error('embed cookie not found');
+				done(cookieStatus);
+			});
+	});
+
 	it('checks that user cannot view the embed view unless logged in', done => {
 		const ERROR_MESSAGE = '[[error:not-logged-in]]';
 		nodeBBServer
@@ -24,14 +44,10 @@ describe('NodeBB embed view test', () => {
 			.expect('Content-Type', /json/)
 			.end((err, res) => {
 				if (err) return done(err);
-				if (res.body.error === ERROR_MESSAGE) {
-					done();
-				} else {
-					done(new Error('Wrong error message found in response'));
-				}
+				assert.equal(res.body.error, ERROR_MESSAGE);
+				done();
 			});
 	});
-
 	it('checks that "/embed" must be called with query paramteres', done => {
 		const ERROR_MESSAGE = '[[error:invalid-search-term]]';
 		nodeBBServer
@@ -41,11 +57,8 @@ describe('NodeBB embed view test', () => {
 			.expect('Content-Type', /json/)
 			.end((err, res) => {
 				if (err) return done(err);
-				if (res.body.error === ERROR_MESSAGE) {
-					done();
-				} else {
-					done(new Error('Wrong error message found in response'));
-				}
+				assert.equal(res.body.error, ERROR_MESSAGE);
+				done();
 			});
 	});
 
