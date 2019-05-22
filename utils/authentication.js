@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const { async: User } = require.main.require('./src/user');
 
-const helpers = require('@utils/helpers');
+const helpers = require('./helpers');
 
 const authentication = module.exports;
 

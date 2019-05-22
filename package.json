@@ -36,12 +36,6 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "jsonwebtoken": "^8.5.1",
-    "module-alias": "^2.2.0"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@lib": "lib",
-    "@utils": "utils"
+    "jsonwebtoken": "^8.5.1"
   }
 }

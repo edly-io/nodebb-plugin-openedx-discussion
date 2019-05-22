@@ -1,13 +1,11 @@
 'use strict';
 
-require('module-alias/register');
-
 const { async: meta } = require.main.require('./src/meta');
 
-const constants = require('@lib/constants');
-const controllers = require('@lib/controllers');
-const authentication = require('@utils/authentication');
-const logger = require('@utils/logger');
+const constants = require('./lib/constants');
+const controllers = require('./lib/controllers');
+const authentication = require('./utils/authentication');
+const logger = require('./utils/logger');
 
 const plugin = {};
 

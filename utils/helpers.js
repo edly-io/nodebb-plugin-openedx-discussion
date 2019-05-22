@@ -4,7 +4,7 @@ const { promisify } = require('util');
 
 const nbbAuthController = require.main.require('./src/controllers/authentication');
 
-const constants = require('@lib/constants');
+const constants = require('../lib/constants');
 
 
 const verifySettings = settings => {
