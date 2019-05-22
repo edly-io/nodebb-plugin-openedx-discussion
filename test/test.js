@@ -72,7 +72,6 @@ describe('NodeBB embed view test', () => {
 			.end((err, res) => {
 				if (err) return done(err);
 
-
 				assert.equal(res.body.breadcrumbs, null);
 				assert.equal(res.body.isEmbedView, true);
 				assert.equal(res.body.showCategoryLink, false);
