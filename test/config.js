@@ -2,13 +2,13 @@
 
 
 const test_config = {
-	NODEBB_URL: '<NodeBB URL>',
+	NODEBB_URL: 'localhost:4567',
 
-	JWT_COOKIE_NAME: '<JWT Cookie name>',
-	JWT_SECRET: '<JWT authentication token>',
+	JWT_COOKIE_NAME: 'token',
+	JWT_SECRET: 'secret',
 
 	USER: {
-		username: '<TestUser>',
+		username: 'admin',
 	},
 };
 
