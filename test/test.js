@@ -10,8 +10,6 @@ const { NODEBB_URL, USER, JWT_COOKIE_NAME, JWT_SECRET } = require('./config');
 const nodeBBServer = supertest(NODEBB_URL);
 
 
-const DEFAULT_TIMEOUT = 5000;
-
 describe('NodeBB embed view test', () => {
 	const user = {
 		username: USER.username,

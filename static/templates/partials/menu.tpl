@@ -175,7 +175,7 @@
 						<a class="btn btn-primary btn-login" href="{relative_path}/login">
 						<!-- ENDIF -->
 							<i class="fa fa-sign-in fa-fw hidden-sm hidden-md hidden-lg"></i>
-							<span>[[global:Sign]] [[global:in]]</span>
+							<span>[[global:signin]]</span>
 						</a>
 					</li>
 				</ul>
