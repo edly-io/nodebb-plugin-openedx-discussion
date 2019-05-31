@@ -1,7 +1,7 @@
 {
   "name": "nodebb-plugin-openedx-discussion",
   "version": "0.1.0",
-  "description": "NodeBB plugin for integrating NodeBB discussion into Open EdX.",
+  "description": "NodeBB plugin for integrating NodeBB discussion into Open edX.",
   "main": "library.js",
   "repository": {
     "type": "git",
