@@ -37,4 +37,22 @@ $(window).on('action:app.load', function (event, data) {
 		localStorage.setItem('isReloaded', true);
 		location.reload();
 	}
+
+});
+
+
+/**
+	 *Truncate the title and description
+*/
+$(document).ready(function(){
+
+	document.querySelector( '.categories' )
+	.querySelectorAll( 'h2, .description' )
+	.forEach(( listitem ) => {
+		new Dotdotdot( listitem, {
+			// Add ellipsis at the end
+			ellipsis: '...',
+			tolerance: 0
+		});
+	});
 });
