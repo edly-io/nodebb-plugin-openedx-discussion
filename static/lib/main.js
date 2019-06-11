@@ -41,18 +41,16 @@ $(window).on('action:app.load', function (event, data) {
 });
 
 
-/**
-	 *Truncate the title and description
-*/
-$(document).ready(function(){
 
-	document.querySelector( '.categories' )
-	.querySelectorAll( 'h2, .description' )
-	.forEach(( listitem ) => {
-		new Dotdotdot( listitem, {
-			// Add ellipsis at the end
-			ellipsis: '...',
-			tolerance: 0
-		});
-	});
+/**
+    *Truncate the title and description
+**/
+
+$(document).ready(function() {
+
+    const elements = document.querySelectorAll('.categories .description p, .categories h2');
+    elements.forEach(function(current) {
+        lineClamp(current, 2);
+    })
+
 });

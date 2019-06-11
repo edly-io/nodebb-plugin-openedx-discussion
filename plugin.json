@@ -39,7 +39,7 @@
 		"static/less/edly-discussion.less"
 	],
 	"scripts": [
-		"static/lib/dotdotdot.js",
+		"static/lib/line-clamp.js",
 		"static/lib/main.js"
 	],
 	"acpScripts": [
