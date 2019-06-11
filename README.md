@@ -1,8 +1,9 @@
 # nodebb-plugin-openedx-discussion (A NodeBB plugin for Openedx)
 
-By integrating this plugin we can use all the functionalities of NodeBB Discussion Forum in Open edX in following ways:
-1- Session will be shared among Open edX and NodeBB.
-2- An embed view of NodeBB discussion will be displayed in course discussion. 
+By integrating this plugin we can use all the functionalities of NodeBB Discussion Forum in Open EdX in the following ways: 
+1-  Session will be shared among Open EdX and NodeBB. 
+2-  An embedded view of NodeBB discussion will be displayed in the course discussion.
+ 
 
 ### Prerequisites
 
@@ -11,7 +12,7 @@ By integrating this plugin we can use all the functionalities of NodeBB Discussi
 
 ### Enabling the plugin
 
-To enable this plugin we need to configure both of our Open edX and NodeBB instances according to following steps:
+To enable this plugin we need to configure both of your Open EdX and NodeBB instances according to the following steps:
 
 1. Install [openedx-nodebb-discussion](https://github.com/arbisoft/openedx-nodebb-discussion) in your Open edX instance using its [README](https://github.com/arbisoft/openedx-nodebb-discussion/blob/master/README.md). 
 2. Integrate [nodebb-plugin-openedx-discussion](https://github.com/arbisoft/nodebb-plugin-openedx-discussion) plugin in your NodeBB instance, using the Installation Guide given bellow.
@@ -19,8 +20,8 @@ To enable this plugin we need to configure both of our Open edX and NodeBB insta
 
 ### Installation Guide
 
-#### Automated way
-To install `nodebb-plugin-openedx-discussion` using the `curl` follow the following steps:
+#### Automated method
+To install `nodebb-plugin-openedx-discussion` using the `curl` command follow the following steps:
 
 1. Navigate to NodeBB directory.
 2. Run the following command to install and activate the plugin:
@@ -28,18 +29,18 @@ To install `nodebb-plugin-openedx-discussion` using the `curl` follow the follow
 $ curl https://raw.githubusercontent.com/edly-io/nodebb-plugin-openedx-discussion/master/install.sh | bash
 ```
 
-#### Manual way
+#### Manual menthod
 To install `nodebb-plugin-openedx-discussion` manually follow the following steps:
 
 1. Run your NodeBB instance, in the admin panel go to `Extend->Plugins`, in `Plugin Search` search for `nodebb-plugin-openedx-discussion` then install and activate this plugin and restart NodeBB.
 2. Again go to admin panel, in `Plugins` tab select `Openedx Discussion` option.
 3. Enter `JWT cookie name` and `Secret`, make sure that these settings match with the settings of your [openedx-nodebb-discussion](https://github.com/arbisoft/openedx-nodebb-discussion) app.
 
-The Plugin is working now, you can check it by creating a course in you Open edX instance with nodebb enabled and selecting the `NodeBB Discussion` tab where a NodeBB iframe will be shown to you. 
+The plugin is working now, you can check it by creating a course in you Open EdX instance with NodeBB enabled and selecting the `NodeBB Discussion` tab where a NodeBB iframe will be shown to you. 
 
 ## License
 
-The code in this repository is licensed under the GPL v3.0 unless otherwise noted. Please see [LICENSE.md](LICENSE.md) for details
+The code in this repository is licensed under the GPL v3.0 unless otherwise noted. Please see [LICENSE.md](https://github.com/edly-io/nodebb-plugin-openedx-discussion/blob/master/LICENSE) for the details.
 
 ## How To Contribute
 
