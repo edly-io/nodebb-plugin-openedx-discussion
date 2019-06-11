@@ -44,7 +44,7 @@ The code in this repository is licensed under the GPL v3.0 unless otherwise note
 
 ## How To Contribute
 
-To contribute, please make a pull request in this repositry on Github: [nodebb-plugin-openedx-discussion](https://github.com/arbisoft/nodebb-plugin-openedx-discussion). If you have any question or issue, please feel free to open an issue on Github: [nodebb-plugin-openedx-discussion](https://github.com/arbisoft/nodebb-plugin-openedx-discussion).
+To contribute, please make a pull request in this repositry on Github: [nodebb-plugin-openedx-discussion](https://github.com/arbisoft/nodebb-plugin-openedx-discussion). If you have any question or issue, please feel free to open an [issue](https://github.com/edly-io/nodebb-plugin-openedx-discussion/issues) on Github. 
 
 
 ## Contributors
